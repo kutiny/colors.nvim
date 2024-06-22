@@ -5,12 +5,22 @@ local theme_file = "~/.nvim_theme"
 function M:handle_exit(th, config)
     self.window_is_open = false
     M:set_colorscheme(th, config)
+
+    if config.callback_fn then
+        config.callback_fn()
+    end
+
     vim.cmd('q')
 end
 
 function M:process_change(config)
     local t = vim.api.nvim_get_current_line()
     M:set_colorscheme(t, config)
+
+    if config.callback_fn then
+        config.callback_fn()
+    end
+
     return t
 end
 
@@ -55,6 +65,10 @@ function M:set_colorscheme(color, config)
     if config.enable_transparent_bg then
         vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
         vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
+    end
+
+    if config.callback_fn then
+        config.callback_fn()
     end
 end
 
