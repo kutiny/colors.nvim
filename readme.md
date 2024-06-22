@@ -17,6 +17,9 @@ That's how colors.nvim idea was born.
 - [x] Single lua file configuration, using `name` key for plugins (using Lazy.nvim) (See [using file for listing themes](#using-file-for-listing-themes))
 - [x] Fallback default theme
 - [x] Enable transparent background (See [transparent-backgrounds](#transparent-backgrounds))
+- [x] Prevent opening multiple menu buffers
+- [x] Close menu on bufleave
+- [x] Callback to run after configuring a theme (useful for reconfiguring plugins like lualine)
 
 ## Configuration
 
@@ -43,6 +46,9 @@ Example configuration with Lazy.nvim
             width = 100,
             height = 20,
             title_pos = 'left', -- left, right or center
+            callback_fn = function()
+                require('lualine').setup()
+            end
         })
 
         vim.keymap.set('n', '<leader>t', ':ShowThemes<CR>', { silent = true })
