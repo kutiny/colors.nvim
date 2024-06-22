@@ -44,7 +44,7 @@ function M:init_buffer(bufnr, win_id, fallback_theme, config)
         group = vim.api.nvim_create_augroup('colors', { clear = true }),
         buffer = bufnr,
         callback = function()
-            utils.handle_exit(self, fallback_theme, config)
+            utils.handle_exit(self, nil, config)
         end,
     })
 
