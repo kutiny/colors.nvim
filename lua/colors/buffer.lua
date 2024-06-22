@@ -39,6 +39,15 @@ function M:init_buffer(bufnr, win_id, fallback_theme, config)
         vim.api.nvim_win_set_cursor(win_id, { cursor[1], cursor[2] })
         utils:process_change(config)
     end, { buffer = bufnr, silent = true })
+
+    vim.api.nvim_create_autocmd({ "BufLeave" }, {
+        group = vim.api.nvim_create_augroup('colors', { clear = true }),
+        buffer = bufnr,
+        callback = function()
+            utils.handle_exit(self, fallback_theme, config)
+        end,
+    })
+
 end
 
 return M
