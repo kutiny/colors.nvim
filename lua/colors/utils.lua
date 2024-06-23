@@ -36,13 +36,20 @@ function M:get_theme_list(config)
     local themes = {}
 
     for _, v in ipairs(content) do
+        if string.find(v, '%-%-') ~= nil then
+            goto continue
+        end
+
         local t = string.gsub(v, "'", "")
         t = string.gsub(t, "name=", "")
         t = string.gsub(t, ",", "")
+
         if t == "" then
             goto continue
         end
+
         table.insert(themes, t)
+
         ::continue::
     end
 
