@@ -104,3 +104,23 @@ vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
 vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
 ```
 
+# Known Issues
+
+## LuaLine colors are wrong after switching themes
+
+I use lualine in my config and I noticed that lualine colors are missing or wrong after configuring a new theme.
+The solution was to re-configure lualine in the callback_fn configuration
+```lua
+{
+    'kutiny/colors.nvim',
+    config = function()
+        require('colors').setup({
+            ...
+            callback_fn = function()
+                require('lualine').setup()
+            end
+            ...
+        })
+    end
+}
+```
