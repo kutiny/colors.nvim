@@ -62,8 +62,10 @@ function M:get_theme_list(config)
                 table.insert(show_themes, v)
             end
         end
-    end
 
+    else
+        return themes
+    end
 
     return show_themes
 end
