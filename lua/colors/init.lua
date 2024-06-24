@@ -33,7 +33,7 @@ function M:open_theme_window(themes, configuration)
 
     vim.api.nvim_buf_set_lines(bufnr, 0, -1, false, themes)
 
-    buffer.init_buffer(self, bufnr, win_id, current_theme, configuration)
+    buffer.init_buffer(self, bufnr, current_theme, configuration)
 end
 
 function M:setup(user_config)
