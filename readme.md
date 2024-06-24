@@ -14,7 +14,6 @@ That's how colors.nvim idea was born.
 
 - [x] Persistent theme configuration
 - [x] Hard-coded theme list
-- [x] Single lua file configuration, using `name` key for plugins (using Lazy.nvim) (See [using file for listing themes](#using-file-for-listing-themes))
 - [x] Fallback default theme
 - [x] Enable transparent background (See [transparent-backgrounds](#transparent-backgrounds))
 - [x] Prevent opening multiple menu buffers
@@ -35,7 +34,7 @@ Example configuration with Lazy.nvim
         require('colors'):setup({
             enable_transparent_bg = true,
             fallback_theme_name = 'evergarden',
-            theme_list = { -- or leave nil to use auto fetch
+            theme_list = { -- or leave nil to use auto list
                 'evergarden',
                 'catppuccin-mocha',
                 'rose-pine',
