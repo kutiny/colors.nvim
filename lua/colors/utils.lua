@@ -31,6 +31,11 @@ function M:get_theme_list(config)
 
     local themes = vim.fn.getcompletion('', 'color')
     local show_themes = {}
+    local ignore_themes = {}
+
+    for _, t in ipairs(config.ignore_themes) do
+        ignore_themes[t] = true
+    end
 
     if config.hide_builtins then
         local builtins = {
@@ -58,13 +63,23 @@ function M:get_theme_list(config)
         }
 
         for _, v in ipairs(themes) do
-            if not builtins[v] then
+            if not builtins[v] and not ignore_themes[v] then
                 table.insert(show_themes, v)
             end
         end
 
     else
-        return themes
+        for _, v in ipairs(themes) do
+            if not ignore_themes[v] then
+                table.insert(show_themes, v)
+            end
+        end
+    end
+
+    if config.append_themes then
+        for _, t in ipairs(config.append_themes) do
+            table.insert(show_themes, t)
+        end
     end
 
     return show_themes

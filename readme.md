@@ -14,10 +14,10 @@ That's how colors.nvim idea was born.
 
 - [x] Persistent theme configuration
 - [x] Hard-coded theme list
+- [x] Append list
+- [x] Blacklist
 - [x] Fallback default theme
 - [x] Enable transparent background (See [transparent-backgrounds](#transparent-backgrounds))
-- [x] Prevent opening multiple menu buffers
-- [x] Close menu on bufleave
 - [x] Callback to run after configuring a theme (useful for reconfiguring plugins like lualine)
 
 ## Configuration
@@ -34,20 +34,7 @@ Example configuration with Lazy.nvim
         require('colors'):setup({
             enable_transparent_bg = true,
             fallback_theme_name = 'evergarden',
-            theme_list = { -- or leave nil to use auto list
-                'evergarden',
-                'catppuccin-mocha',
-                'rose-pine',
-            },
             hide_builtins = true,
-            border = 'double', -- single or none
-            title = ' My Themes ',
-            width = 100,
-            height = 20,
-            title_pos = 'left', -- left, right or center
-            callback_fn = function()
-                require('lualine').setup()
-            end
         })
 
         vim.keymap.set('n', '<leader>t', ':ShowThemes<CR>', { silent = true })
@@ -56,6 +43,37 @@ Example configuration with Lazy.nvim
 ```
 
 </details>
+
+## Default configuration
+
+```lua
+{
+    enable_transparent_bg = false,
+    hide_builtins = true,
+    append_themes = {},
+    ignore_themes = {},
+    border = 'single',
+    title = ' My Themes ',
+    width = 70,
+    height = 8,
+    title_pos = 'center',
+    callback_fn = function () end,
+}
+```
+
+|configuration|explanation|default|
+|:-|:-|:-|
+|enable_transparent_bg|[See transparent backgrounds](#transparent-backgrounds)|false|
+|hide_buildtins|Hide builtin themes from the list|true|
+|append_themes|If you want to manually append themes to the list|{}|
+|ignore_themes|Remove items from list|{}|
+|border|Window border, See [window configuration](https://neovim.io/doc/user/api.html#nvim_open_win())|single|
+|title|Window title, See [window configuration](https://neovim.io/doc/user/api.html#nvim_open_win())|' My themes '|
+|width|Window width|70|
+|height|Window height|8|
+|title_pos|Window title position, See [window configuration](https://neovim.io/doc/user/api.html#nvim_open_win())|'center'|
+|callback_fn|Function to execute after configuring a theme|_empty function_|
+
 
 ## Transparent Backgrounds
 

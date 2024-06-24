@@ -3,6 +3,9 @@ local augroup = require('colors.autocmd')
 local M = {}
 
 function M:init_buffer(bufnr, fallback_theme, config)
+    vim.api.nvim_buf_set_option(bufnr, 'readonly', true)
+    vim.api.nvim_buf_set_option(bufnr, 'modifiable', false)
+
     vim.keymap.set('n', 'q', function()
         utils.handle_exit(self, fallback_theme, config)
     end, { buffer = bufnr, silent = true })

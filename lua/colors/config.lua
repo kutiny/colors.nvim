@@ -4,6 +4,8 @@ function M:get_config(user_config)
     local default_config = {
         enable_transparent_bg = false,
         hide_builtins = true,
+        append_themes = {},
+        ignore_themes = {},
         border = 'single',
         title = ' My Themes ',
         width = 70,
