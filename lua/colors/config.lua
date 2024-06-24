@@ -11,7 +11,7 @@ function M:get_config(user_config)
         width = 70,
         height = 8,
         title_pos = 'center',
-        callback_fn = function () end,
+        callback_fn = function() end,
     }
 
     return vim.tbl_extend('keep', user_config or {}, default_config)

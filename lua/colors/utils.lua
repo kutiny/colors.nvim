@@ -1,5 +1,4 @@
 local M = {}
-
 local theme_file = "~/.nvim_theme"
 
 function M:handle_exit(th, config)
@@ -39,27 +38,27 @@ function M:get_theme_list(config)
 
     if config.hide_builtins then
         local builtins = {
-			['blue'] = true,
-			['darkblue'] = true,
-			['default'] = true,
-			['delek'] = true,
-			['desert'] = true,
-			['elflord'] = true,
-			['evening'] = true,
-			['habamax'] = true,
-			['industry'] = true,
-			['koehler'] = true,
-			['lunaperche'] = true,
-			['morning'] = true,
-			['murphy'] = true,
-			['pablo'] = true,
-			['peachpuff'] = true,
-			['quiet'] = true,
-			['ron'] = true,
-			['shine'] = true,
-			['slate'] = true,
-			['torte'] = true,
-			['zellner'] = true,
+            ['blue'] = true,
+            ['darkblue'] = true,
+            ['default'] = true,
+            ['delek'] = true,
+            ['desert'] = true,
+            ['elflord'] = true,
+            ['evening'] = true,
+            ['habamax'] = true,
+            ['industry'] = true,
+            ['koehler'] = true,
+            ['lunaperche'] = true,
+            ['morning'] = true,
+            ['murphy'] = true,
+            ['pablo'] = true,
+            ['peachpuff'] = true,
+            ['quiet'] = true,
+            ['ron'] = true,
+            ['shine'] = true,
+            ['slate'] = true,
+            ['torte'] = true,
+            ['zellner'] = true,
         }
 
         for _, v in ipairs(themes) do
@@ -67,7 +66,6 @@ function M:get_theme_list(config)
                 table.insert(show_themes, v)
             end
         end
-
     else
         for _, v in ipairs(themes) do
             if not ignore_themes[v] then

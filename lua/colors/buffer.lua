@@ -34,7 +34,6 @@ function M:init_buffer(bufnr, fallback_theme, config)
             utils.handle_exit(self, nil, config)
         end,
     })
-
 end
 
 return M
