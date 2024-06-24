@@ -54,15 +54,16 @@ function M:get_theme_list(config)
             ['pablo'] = true,
             ['peachpuff'] = true,
             ['quiet'] = true,
+            ['retrobox'] = true,
             ['ron'] = true,
             ['shine'] = true,
             ['slate'] = true,
+            ['sorbet'] = true,
             ['torte'] = true,
-            ['zellner'] = true,
+            ['vim'] = true,
             ['wildcharm'] = true,
             ['zaibatsu'] = true,
-            ['sorbet'] = true,
-            ['retrobox'] = true,
+            ['zellner'] = true,
         }
 
         for _, v in ipairs(themes) do
