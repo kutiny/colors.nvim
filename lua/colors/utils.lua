@@ -59,6 +59,10 @@ function M:get_theme_list(config)
             ['slate'] = true,
             ['torte'] = true,
             ['zellner'] = true,
+            ['wildcharm'] = true,
+            ['zaibatsu'] = true,
+            ['sorbet'] = true,
+            ['retrobox'] = true,
         }
 
         for _, v in ipairs(themes) do
