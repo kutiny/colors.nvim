@@ -29,33 +29,43 @@ function M:get_theme_list(config)
         return config.theme_list
     end
 
-    local file = config.file
-    local cmd = "cat " .. file .. " | grep -E ' name = .*' | grep -v -E 'cmd' | tr -d ' '"
-    local output = vim.fn.system(cmd)
-    local content = vim.split(output, "\n")
-    local themes = {}
+    local themes = vim.fn.getcompletion('', 'color')
+    local show_themes = {}
 
-    for _, v in ipairs(content) do
-        local start = string.find(v, '%-%-')
-        if start == 1 then
-            goto continue
+    if config.hide_builtins then
+        local builtins = {
+			['blue'] = true,
+			['darkblue'] = true,
+			['default'] = true,
+			['delek'] = true,
+			['desert'] = true,
+			['elflord'] = true,
+			['evening'] = true,
+			['habamax'] = true,
+			['industry'] = true,
+			['koehler'] = true,
+			['lunaperche'] = true,
+			['morning'] = true,
+			['murphy'] = true,
+			['pablo'] = true,
+			['peachpuff'] = true,
+			['quiet'] = true,
+			['ron'] = true,
+			['shine'] = true,
+			['slate'] = true,
+			['torte'] = true,
+			['zellner'] = true,
+        }
+
+        for _, v in ipairs(themes) do
+            if not builtins[v] then
+                table.insert(show_themes, v)
+            end
         end
-
-        local t = string.gsub(v, "'", "")
-        t = string.gsub(t, "name=", "")
-        t = string.gsub(t, ",", "")
-        t = string.gsub(t, "%-%-.*", '')
-
-        if t == "" then
-            goto continue
-        end
-
-        table.insert(themes, t)
-
-        ::continue::
     end
 
-    return themes
+
+    return show_themes
 end
 
 function M:set_colorscheme(color, config)
