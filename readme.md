@@ -35,12 +35,12 @@ Example configuration with Lazy.nvim
         require('colors'):setup({
             enable_transparent_bg = true,
             fallback_theme_name = 'evergarden',
-            file = "~/.config/nvim/lua/plugins/colors.lua", -- or use theme_list
-            theme_list = { -- or use file
+            theme_list = { -- or leave nil to use auto fetch
                 'evergarden',
                 'catppuccin-mocha',
                 'rose-pine',
             },
+            hide_builtins = true,
             border = 'double', -- single or none
             title = ' My Themes ',
             width = 100,
@@ -57,43 +57,6 @@ Example configuration with Lazy.nvim
 ```
 
 </details>
-
-### Using file for listing themes
-
-If both `file` and `theme_list` configurations are present, the plugin will use the hard-coded list.
-
-In order to use your lua configuration file (as I do) you rather prefer using file configuration, that takes a file path.
-This .lua file has every theme configuration, and each theme must use the key configuration of `name`, for example:
-
-```lua
-return {
-    {
-        'kutiny/colors.nvim',
-        config = function()
-            require('colors').setup({
-                enable_transparent_bg = true,
-                fallback_theme_name = 'dracula',
-                file = "~/.config/nvim/lua/plugins/colors.lua",
-            })
-        end
-    },
-    {
-        'dracula/vim',
-        name = 'dracula',
-        priority = 1000,
-    },
-    {
-        'Mofiqul/vscode.nvim',
-        name = 'vscode',
-        priority = 1000,
-    },
-    {
-        'comfysage/evergarden',
-        priority = 1000,
-        name = 'evergarden',
-    },
-}
-```
 
 ## Transparent Backgrounds
 
