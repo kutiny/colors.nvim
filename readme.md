@@ -31,7 +31,7 @@ Example configuration with Lazy.nvim
 {
     'kutiny/colors.nvim',
     config = function()
-        require('colors'):setup({
+        require('colors').setup({
             enable_transparent_bg = true,
             fallback_theme_name = 'evergarden',
             hide_builtins = true,
@@ -48,31 +48,33 @@ Example configuration with Lazy.nvim
 
 ```lua
 {
-    enable_transparent_bg = false,
-    hide_builtins = true,
     append_themes = {},
-    ignore_themes = {},
     border = 'single',
-    title = ' My Themes ',
-    width = 70,
-    height = 8,
-    title_pos = 'center',
     callback_fn = function () end,
+    enable_transparent_bg = false,
+    height = 8,
+    hide_builtins = true,
+    ignore_themes = {},
+    theme_list = nil,
+    title = ' My Themes ',
+    title_pos = 'center',
+    width = 70,
 }
 ```
 
 |configuration|explanation|default|
 |:-|:-|:-|
-|enable_transparent_bg|[See transparent backgrounds](#transparent-backgrounds)|false|
-|hide_buildtins|Hide builtin themes from the list|true|
 |append_themes|If you want to manually append themes to the list|{}|
-|ignore_themes|Remove items from list|{}|
-|border|Window border, See [window configuration](https://neovim.io/doc/user/api.html#nvim_open_win())|single|
-|title|Window title, See [window configuration](https://neovim.io/doc/user/api.html#nvim_open_win())|' My themes '|
-|width|Window width|70|
-|height|Window height|8|
-|title_pos|Window title position, See [window configuration](https://neovim.io/doc/user/api.html#nvim_open_win())|'center'|
+|border|Window border, See [window configuration](https://neovim.io/doc/user/api.html#nvim_open_win())|rounded|
 |callback_fn|Function to execute after configuring a theme|_empty function_|
+|enable_transparent_bg|[See transparent backgrounds](#transparent-backgrounds)|false|
+|height|Window height|8|
+|hide_buildtins|Hide builtin themes from the list|true|
+|ignore_themes|Remove items from list|{}|
+|theme_list|Hard-coded theme list|nil|
+|title_pos|Window title position, See [window configuration](https://neovim.io/doc/user/api.html#nvim_open_win())|'center'|
+|title|Window title, See [window configuration](https://neovim.io/doc/user/api.html#nvim_open_win())|' Themes '|
+|width|Window width|70|
 
 
 ## Transparent Backgrounds

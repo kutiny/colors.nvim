@@ -1,29 +1,38 @@
-local M = {}
+local Utils = {}
 local theme_file = "~/.nvim_theme"
 
-function M:handle_exit(th, config)
-    self.window_is_open = false
-    M:set_colorscheme(th, config)
+---Handle exit
+---Set theme and close the window
+---@param state PluginState
+---@param theme string?
+function Utils.handle_exit(state, theme)
+    state.window_is_open = false
+    Utils.set_colorscheme(theme, state.config)
+
+    if state.config.callback_fn then
+        state.config.callback_fn()
+    end
+
+    vim.api.nvim_win_close(state.win_id, true)
+end
+
+---Process a cursor update on window
+---@param config ColorsConfiguration
+function Utils.process_change(config)
+    local theme = vim.api.nvim_get_current_line()
+    Utils.set_colorscheme(theme, config)
 
     if config.callback_fn then
         config.callback_fn()
     end
 
-    vim.cmd('q')
+    return theme
 end
 
-function M:process_change(config)
-    local t = vim.api.nvim_get_current_line()
-    M:set_colorscheme(t, config)
-
-    if config.callback_fn then
-        config.callback_fn()
-    end
-
-    return t
-end
-
-function M:get_theme_list(config)
+---Get the theme list
+---@param config ColorsConfiguration
+---@return string[]
+function Utils.get_theme_list(config)
     if config.theme_list then
         return config.theme_list
     end
@@ -88,7 +97,10 @@ function M:get_theme_list(config)
     return show_themes
 end
 
-function M:set_colorscheme(color, config)
+---Sets the selected theme
+---@param color string?
+---@param config table<string, any>
+function Utils.set_colorscheme(color, config)
     if color then
         vim.fn.system("echo -n " .. color .. " > " .. theme_file)
     else
@@ -111,4 +123,4 @@ function M:set_colorscheme(color, config)
     end
 end
 
-return M
+return Utils
