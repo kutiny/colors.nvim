@@ -43,7 +43,7 @@ end
 ---setup function
 ---@param user_config UserConfiguration | table<string, any>
 function Colors.setup(user_config)
-    if type(user_config.setup) == 'function' or type(user_config.open_theme_window) == 'function' then
+    if user_config and (type(user_config.setup) == 'function' or type(user_config.open_theme_window) == 'function') then
         print('****************')
         print("You've called setup with `require('colors'):setup`, you must now use `require('colors').setup instead.`")
         print('Using default configuration')
