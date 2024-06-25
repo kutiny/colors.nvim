@@ -1,5 +1,13 @@
 local Utils = {}
-local theme_file = "~/.nvim_theme"
+local home = os.getenv("HOME")
+local os_path_separator = package.config:sub(1,1)
+
+-- windows home path
+if os_path_separator == '\\' then
+    home = os.getenv("USERPROFILE")
+end
+
+local theme_file = home .. os_path_separator .. ".nvim_theme"
 
 ---Handle exit
 ---Set theme and close the window
@@ -97,17 +105,41 @@ function Utils.get_theme_list(config)
     return show_themes
 end
 
+---Reads theme file and returns the configured theme
+---@return string|nil
+local function get_saved_theme()
+    local theme = nil
+    local file = io.open(theme_file, "r")
+    if file then
+        theme = file:read("*l")
+        file:close()
+    end
+    return theme
+end
+
+---Saves the theme to disk
+---@param theme string
+local function save_theme_to_disk(theme)
+    local file = io.open(theme_file, 'w+')
+    if file then
+        file:write(theme)
+        file:close()
+    else
+        print('[Colors]: Failed to save theme')
+    end
+end
+
 ---Sets the selected theme
 ---@param color string?
 ---@param config table<string, any>
 function Utils.set_colorscheme(color, config)
     if color then
-        vim.fn.system("echo -n " .. color .. " > " .. theme_file)
+        save_theme_to_disk(color)
     else
-        color = vim.fn.system("cat " .. theme_file .. " 2> /dev/null | tr -d '\n'")
+        color = get_saved_theme()
     end
 
-    if color == "" then
+    if color == "" or color == nil then
         color = config.fallback_theme_name
     end
 
