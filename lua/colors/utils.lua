@@ -4,7 +4,7 @@ local os_path_separator = package.config:sub(1,1)
 
 -- windows home path
 if os_path_separator == '\\' then
-    home = os.getenv("%HOMEDIR%")
+    home = os.getenv("USERPROFILE")
 end
 
 local theme_file = home .. os_path_separator .. ".nvim_theme"
