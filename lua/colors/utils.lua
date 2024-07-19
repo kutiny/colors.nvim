@@ -1,6 +1,7 @@
+local builtin_themes = require("colors.builtin_themes")
 local Utils = {}
 local home = os.getenv("HOME")
-local os_path_separator = package.config:sub(1,1)
+local os_path_separator = package.config:sub(1, 1)
 
 -- windows home path
 if os_path_separator == '\\' then
@@ -54,37 +55,8 @@ function Utils.get_theme_list(config)
     end
 
     if config.hide_builtins then
-        local builtins = {
-            ['blue'] = true,
-            ['darkblue'] = true,
-            ['default'] = true,
-            ['delek'] = true,
-            ['desert'] = true,
-            ['elflord'] = true,
-            ['evening'] = true,
-            ['habamax'] = true,
-            ['industry'] = true,
-            ['koehler'] = true,
-            ['lunaperche'] = true,
-            ['morning'] = true,
-            ['murphy'] = true,
-            ['pablo'] = true,
-            ['peachpuff'] = true,
-            ['quiet'] = true,
-            ['retrobox'] = true,
-            ['ron'] = true,
-            ['shine'] = true,
-            ['slate'] = true,
-            ['sorbet'] = true,
-            ['torte'] = true,
-            ['vim'] = true,
-            ['wildcharm'] = true,
-            ['zaibatsu'] = true,
-            ['zellner'] = true,
-        }
-
         for _, v in ipairs(themes) do
-            if not builtins[v] and not ignore_themes[v] then
+            if not builtin_themes[v] and not ignore_themes[v] then
                 table.insert(show_themes, v)
             end
         end

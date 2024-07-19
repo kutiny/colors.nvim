@@ -30,13 +30,12 @@ Example configuration with Lazy.nvim
 ```lua
 {
     'kutiny/colors.nvim',
-    config = function()
-        require('colors').setup({
-            enable_transparent_bg = true,
-            fallback_theme_name = 'evergarden',
-            hide_builtins = true,
-        })
-
+    opts = {
+        enable_transparent_bg = true,
+        fallback_theme_name = 'evergarden',
+        hide_builtins = true,
+    },
+    init = function()
         vim.keymap.set('n', '<leader>t', ':ShowThemes<CR>', { silent = true })
     end
 }
@@ -95,14 +94,10 @@ The solution was to re-configure lualine in the callback_fn configuration
 ```lua
 {
     'kutiny/colors.nvim',
-    config = function()
-        require('colors').setup({
-            ...
+    opts = {
             callback_fn = function()
                 require('lualine').setup()
             end
-            ...
-        })
-    end
+    },
 }
 ```
