@@ -35,7 +35,7 @@ function Colors.open_theme_window(state)
         border = state.config.border,
     })
 
-    vim.api.nvim_buf_set_lines(state.bufnr, 0, -1, false, state.themes)
+    vim.api.nvim_buf_set_lines(state.bufnr, 0, -1, false, utils.get_theme_list(state.config))
 
     buffer.init_buffer(state, current_theme)
 end
@@ -53,7 +53,6 @@ function Colors.setup(user_config)
     ---@type PluginState
     local self = {}
     self.config = config.get_config(user_config)
-    self.themes = utils.get_theme_list(self.config)
 
     vim.api.nvim_create_user_command('ShowThemes', function()
         Colors.open_theme_window(self)
