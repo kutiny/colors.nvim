@@ -50,27 +50,27 @@ function Utils.get_theme_list(config)
     local show_themes = {}
     local ignore_themes = {}
 
-    for _, t in ipairs(config.ignore_themes) do
-        ignore_themes[t] = true
+    for k = 1, #config.ignore_themes do
+        ignore_themes[config.ignore_themes[k]] = true
     end
 
     if config.hide_builtins then
-        for _, v in ipairs(themes) do
-            if not builtin_themes[v] and not ignore_themes[v] then
-                table.insert(show_themes, v)
+        for k = 1, #themes do
+            if not builtin_themes[themes[k]] and not ignore_themes[themes[k]] then
+                show_themes[#show_themes + 1] = themes[k]
             end
         end
     else
-        for _, v in ipairs(themes) do
-            if not ignore_themes[v] then
-                table.insert(show_themes, v)
+        for k = 1, #themes do
+            if not ignore_themes[themes[k]] then
+                show_themes[#show_themes + 1] = themes[k]
             end
         end
     end
 
     if config.append_themes then
-        for _, t in ipairs(config.append_themes) do
-            table.insert(show_themes, t)
+        for k = 1, #config.append_themes do
+            show_themes[#show_themes + 1] = config.append_themes[k]
         end
     end
 
