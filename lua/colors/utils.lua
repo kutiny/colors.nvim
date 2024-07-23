@@ -16,7 +16,7 @@ local theme_file = home .. os_path_separator .. ".nvim_theme"
 ---@param theme string?
 function Utils.handle_exit(state, theme)
     state.window_is_open = false
-    Utils.set_colorscheme(theme, state.config)
+    Utils.set_colorscheme(theme, state.config, true)
 
     if state.config.callback_fn then
         state.config.callback_fn()
@@ -29,7 +29,7 @@ end
 ---@param config ColorsConfiguration
 function Utils.process_change(config)
     local theme = vim.api.nvim_get_current_line()
-    Utils.set_colorscheme(theme, config)
+    Utils.set_colorscheme(theme, config, true)
 
     if config.callback_fn then
         config.callback_fn()
@@ -104,7 +104,7 @@ end
 ---Sets the selected theme
 ---@param color string?
 ---@param config table<string, any>
-function Utils.set_colorscheme(color, config)
+function Utils.set_colorscheme(color, config, execute_callback)
     if color then
         save_theme_to_disk(color)
     else
@@ -122,7 +122,7 @@ function Utils.set_colorscheme(color, config)
         vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
     end
 
-    if config.callback_fn then
+    if config.callback_fn and execute_callback then
         config.callback_fn()
     end
 end
