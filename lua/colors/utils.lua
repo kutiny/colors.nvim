@@ -28,7 +28,9 @@ end
 ---Process a cursor update on window
 ---@param config ColorsConfiguration
 function Utils.process_change(config)
-    local theme = vim.api.nvim_get_current_line()
+    local line = vim.api.nvim_get_current_line()
+    local theme = string.gsub(line, config.icon, '')
+
     Utils.set_colorscheme(theme, config, true)
 
     if config.callback_fn then
