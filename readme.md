@@ -10,6 +10,11 @@ Ultimately, I decided to create a plugin that can list themes within a buffer, e
 
 That's how colors.nvim idea was born.
 
+
+## Requirements
+
+- A nerd font in order to display icons.
+
 ## Key features
 
 - [x] Persistent theme configuration
@@ -34,6 +39,7 @@ Example configuration with Lazy.nvim
         enable_transparent_bg = true,
         fallback_theme_name = 'evergarden',
         hide_builtins = true,
+        icon = '󱓞',
     },
     init = function()
         vim.keymap.set('n', '<leader>t', ':ShowThemes<CR>', { silent = true })
@@ -55,6 +61,7 @@ Example configuration with Lazy.nvim
     hide_builtins = true,
     ignore_themes = {},
     theme_list = nil,
+    icon = '',
     title = ' My Themes ',
     title_pos = 'center',
     width = 70,
@@ -71,10 +78,14 @@ Example configuration with Lazy.nvim
 |hide_buildtins|Hide builtin themes from the list|true|
 |ignore_themes|Remove items from list|{}|
 |theme_list|Hard-coded theme list|nil|
+|icon|Icon to show before theme names||
 |title_pos|Window title position, See [window configuration](https://neovim.io/doc/user/api.html#nvim_open_win())|'center'|
 |title|Window title, See [window configuration](https://neovim.io/doc/user/api.html#nvim_open_win())|' Themes '|
 |width|Window width|70|
 
+## Icon
+
+If you want to remove the icon set the property `icon` to an empty string.
 
 ## Transparent Backgrounds
 

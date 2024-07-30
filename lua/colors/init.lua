@@ -37,13 +37,14 @@ function Colors.open_theme_window(state)
 
     local theme_list = utils.get_theme_list(state.config)
     local line_target = 1
+    local content = {}
     for i = 1, #theme_list do
+        content[i] = state.config.icon .. theme_list[i]
         if theme_list[i] == current_theme then
             line_target = i
-            break
         end
     end
-    vim.api.nvim_buf_set_lines(state.bufnr, 0, -1, false, utils.get_theme_list(state.config))
+    vim.api.nvim_buf_set_lines(state.bufnr, 0, -1, false, content)
     vim.api.nvim_win_set_cursor(state.win_id, { line_target, 0 })
 
     buffer.init_buffer(state, current_theme)
