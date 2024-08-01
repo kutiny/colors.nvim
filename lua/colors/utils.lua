@@ -2,6 +2,8 @@ local builtin_themes = require("colors.builtin_themes")
 local Utils = {}
 local home = os.getenv("HOME")
 local os_path_separator = package.config:sub(1, 1)
+local uv = vim.loop
+local group = require('colors.autocmd')
 
 -- windows home path
 if os_path_separator == '\\' then
@@ -14,14 +16,16 @@ local theme_file = home .. os_path_separator .. ".nvim_theme"
 ---Set theme and close the window
 ---@param state PluginState
 ---@param theme string?
-function Utils.handle_exit(state, theme)
+---@param skip_save boolean?
+function Utils.handle_exit(state, theme, skip_save)
     state.window_is_open = false
-    Utils.set_colorscheme(theme, state.config, true)
+    Utils.set_colorscheme(theme, state.config, skip_save, true)
 
     if state.config.callback_fn then
         state.config.callback_fn()
     end
 
+    vim.api.nvim_clear_autocmds({ group = group })
     vim.api.nvim_win_close(state.win_id, true)
 end
 
@@ -31,7 +35,7 @@ function Utils.process_change(config)
     local line = vim.api.nvim_get_current_line()
     local theme = string.gsub(line, config.icon, '')
 
-    Utils.set_colorscheme(theme, config, true)
+    Utils.set_colorscheme(theme, config, true, true)
 
     if config.callback_fn then
         config.callback_fn()
@@ -79,53 +83,74 @@ function Utils.get_theme_list(config)
     return show_themes
 end
 
----Reads theme file and returns the configured theme
----@return string|nil
-local function get_saved_theme()
+---Reads theme file asynchronous and execute the callback
+---@return nil
+local function get_saved_theme(callback)
     local theme = nil
-    local file = io.open(theme_file, "r")
-    if file then
-        theme = file:read("*l")
-        file:close()
-    end
-    return theme
+    uv.fs_open(theme_file, "r", 438, function(err, fd)
+        assert(not err, err)
+        uv.fs_fstat(fd, function(err, stat)
+            assert(not err, err)
+            uv.fs_read(fd, stat.size, 0, function(err, data)
+                assert(not err, err)
+                theme = data
+                uv.fs_close(fd, function(err)
+                    assert(not err, err)
+                    vim.schedule(function()
+                        callback(theme)
+                    end)
+                end)
+            end)
+        end)
+    end)
 end
 
 ---Saves the theme to disk
 ---@param theme string
 local function save_theme_to_disk(theme)
-    local file = io.open(theme_file, 'w+')
-    if file then
-        file:write(theme)
-        file:close()
-    else
-        print('[Colors]: Failed to save theme')
-    end
+    uv.fs_open(theme_file, "w", 438, function(err, fd)
+        assert(not err, err)
+        uv.fs_write(fd, theme, -1, function(err)
+            assert(not err, err)
+            uv.fs_close(fd, function(err)
+                assert(not err, err)
+            end)
+        end)
+    end)
 end
 
 ---Sets the selected theme
 ---@param color string?
 ---@param config table<string, any>
-function Utils.set_colorscheme(color, config, execute_callback)
-    if color then
+---@param skip_save boolean?
+function Utils.set_colorscheme(color, config, skip_save, execute_callback)
+    function apply_theme(t)
+        vim.cmd.colorscheme(t)
+        if config.enable_transparent_bg then
+            vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
+            vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
+        end
+    end
+
+    function read_callback(read_theme)
+        if read_theme == "" or read_theme == nil then
+            read_theme = config.fallback_theme_name
+        end
+
+        apply_theme(read_theme)
+
+        if config.callback_fn and execute_callback then
+            config.callback_fn()
+        end
+    end
+
+    if color and not skip_save then
         save_theme_to_disk(color)
+        apply_theme(color)
+    elseif color then
+        apply_theme(color)
     else
-        color = get_saved_theme()
-    end
-
-    if color == "" or color == nil then
-        color = config.fallback_theme_name
-    end
-
-    vim.cmd.colorscheme(color)
-
-    if config.enable_transparent_bg then
-        vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
-        vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
-    end
-
-    if config.callback_fn and execute_callback then
-        config.callback_fn()
+        get_saved_theme(read_callback)
     end
 end
 
