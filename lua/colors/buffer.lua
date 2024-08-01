@@ -11,16 +11,16 @@ function Buffer.init_buffer(state, fallback_theme)
     vim.api.nvim_set_option_value('modifiable', false, { buf = state.bufnr })
 
     vim.keymap.set('n', 'q', function()
-        utils.handle_exit(state, fallback_theme)
+        utils.handle_exit(state, fallback_theme, true)
     end, { buffer = state.bufnr, silent = true })
 
     vim.keymap.set('n', '<Esc>', function()
-        utils.handle_exit(state, fallback_theme)
+        utils.handle_exit(state, fallback_theme, true)
     end, { buffer = state.bufnr, silent = true })
 
     vim.keymap.set('n', '<CR>', function()
         local theme = utils.process_change(state.config)
-        utils.handle_exit(state, theme)
+        utils.handle_exit(state, theme, false)
     end, { buffer = state.bufnr, silent = true })
 
     vim.api.nvim_create_autocmd({ "CursorMoved" }, {
@@ -35,7 +35,7 @@ function Buffer.init_buffer(state, fallback_theme)
         group = augroup,
         buffer = state.bufnr,
         callback = function()
-            utils.handle_exit(state, nil)
+            utils.handle_exit(state, nil, true)
         end,
     })
 end

@@ -68,7 +68,7 @@ function Colors.setup(user_config)
         Colors.open_theme_window(self)
     end, {})
 
-    utils.set_colorscheme(nil, self.config, false)
+    utils.set_colorscheme(nil, self.config, true, true)
 end
 
 return Colors
