@@ -4,6 +4,16 @@ local buffer = require('colors.buffer')
 local utils = require('colors.utils')
 
 ---@alias PluginState {config: ColorsConfiguration, window_is_open: boolean, themes: string[], bufnr: integer, win_id: integer}
+---Toggle themes window
+---@param state PluginState
+function Colors.toggle_theme_window(state)
+    if state.window_is_open then
+        utils.handle_exit(state, nil, true)
+    else
+        Colors.open_theme_window(state)
+    end
+
+end
 
 ---Open themes window
 ---@param state PluginState
@@ -66,6 +76,10 @@ function Colors.setup(user_config)
 
     vim.api.nvim_create_user_command('ShowThemes', function()
         Colors.open_theme_window(self)
+    end, {})
+
+    vim.api.nvim_create_user_command('ToggleThemes', function()
+        Colors.toggle_theme_window(self)
     end, {})
 
     utils.set_colorscheme(nil, self.config, true, true)

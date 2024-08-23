@@ -41,8 +41,11 @@ Example configuration with Lazy.nvim
         hide_builtins = true,
         icon = '󱓞',
     },
+    cmd = { 'ShowThemes', 'ToggleThemes' },
     init = function()
-        vim.keymap.set('n', '<leader>t', ':ShowThemes<CR>', { silent = true })
+        vim.keymap.set('n', '<leader>t', '<cmd>ShowThemes<CR>', { silent = true })
+        -- or
+        vim.keymap.set('n', '<leader>t', '<cmd>ToggleThemes<CR>', { silent = true })
     end
 }
 ```
