@@ -88,20 +88,26 @@ end
 local function get_saved_theme(callback)
     local theme = nil
     uv.fs_open(theme_file, "r", 438, function(err, fd)
-        assert(not err, err)
-        uv.fs_fstat(fd, function(err, stat)
-            assert(not err, err)
-            uv.fs_read(fd, stat.size, 0, function(err, data)
+        local success, result = pcall(assert, not err, err)
+        if not success then
+            vim.schedule(function()
+                callback(theme)
+            end)
+        else
+            uv.fs_fstat(fd, function(err, stat)
                 assert(not err, err)
-                theme = data
-                uv.fs_close(fd, function(err)
+                uv.fs_read(fd, stat.size, 0, function(err, data)
                     assert(not err, err)
-                    vim.schedule(function()
-                        callback(theme)
+                    theme = data
+                    uv.fs_close(fd, function(err)
+                        assert(not err, err)
+                        vim.schedule(function()
+                            callback(theme)
+                        end)
                     end)
                 end)
             end)
-        end)
+        end
     end)
 end
 
